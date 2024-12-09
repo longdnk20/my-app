@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   # Build job
-  build:
+  CI_BUILD:
     runs-on: ubuntu-22.04
     steps:
     
@@ -38,7 +38,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: CI/Install JavaScript dependencies
-        run: npm ci --only=production
+        run: npm i -f
 
       - name: Test Page
         run: npm run test
@@ -52,7 +52,7 @@ jobs:
           path: ./build # CRA build output folder
 
   # Deployment job
-  deploy:
+  CD_DEPLOY:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
