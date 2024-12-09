@@ -40,6 +40,9 @@ jobs:
       - name: Install JavaScript dependencies
         run: npm i -f
 
+      - name: Test Page
+        run: npm run test
+
       - name: Build site
         run: npm run build --if-present
 
