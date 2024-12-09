@@ -20,15 +20,15 @@ concurrency:
 
 jobs:
   # Job 1: Checkout code
-  ci/checkout:
+  ci_CHECKOUT:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
   # Job 2: Setup environment (Node.js)
-  ci/setup:
-    needs: ci/checkout
+  ci_SETUP:
+    needs: ci_CHECKOUT
     runs-on: ubuntu-22.04
     steps:
       - name: Setup Pages
@@ -40,8 +40,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
   # Job 3: Install dependencies and run tests
-  ci/test:
-    needs: ci/setup
+  ci_TEST:
+    needs: ci_SETUP
     runs-on: ubuntu-22.04
     steps:
       - name: Install JavaScript dependencies
@@ -51,8 +51,8 @@ jobs:
         run: npm run test
 
   # Job 4: Build the site
-  ci/build:
-    needs: ci/test
+  ci_BUILD:
+    needs: ci_TEST
     runs-on: ubuntu-22.04
     steps:
       - name: Build the application
@@ -64,8 +64,8 @@ jobs:
           path: ./build # CRA build output folder
 
   # Job 5: Deploy to GitHub Pages
-  cd/deploy:
-    needs: ci/build
+  cd_DEPLOY:
+    needs: ci_BUILD
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
