@@ -10,17 +10,17 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <Counter />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload are u ok ?
+          Edit <code>src/App.tsx</code> and save to reload new page here, check this
         </p>
         <span>
-          <span>Learn </span>
+          <span>Learning </span>
           <a
             className="App-link"
             href="https://reactjs.org/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            React this
+            ReactJS
           </a>
           <span>, </span>
           <a
@@ -29,7 +29,7 @@ function App() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Redux here
+            Redux here for every one
           </a>
           <span>, </span>
           <a
@@ -38,7 +38,7 @@ function App() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Redux Toolkit only
+            Redux Toolkit but catch me if u can
           </a>
           ,<span> and </span>
           <a
@@ -47,7 +47,7 @@ function App() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            React Redux for conquer the world
+            Hell yeah
           </a>
         </span>
       </header>

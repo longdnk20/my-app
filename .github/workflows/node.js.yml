@@ -9,56 +9,68 @@ on:
 
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: true
 
 jobs:
-  # Build job
-  build:
+  # Job 1: Checkout code
+  ci/checkout:
     runs-on: ubuntu-22.04
     steps:
-    
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
+  # Job 2: Setup environment (Node.js)
+  ci/setup:
+    needs: ci/checkout
+    runs-on: ubuntu-22.04
+    steps:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Set up Node ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4.1.0
+      - name: Set up Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+  # Job 3: Install dependencies and run tests
+  ci/test:
+    needs: ci/setup
+    runs-on: ubuntu-22.04
+    steps:
       - name: Install JavaScript dependencies
-        run: npm i -f
+        run: npm install
 
-      - name: Test Page
+      - name: Test application
         run: npm run test
 
-      - name: Build site
-        run: npm run build --if-present
+  # Job 4: Build the site
+  ci/build:
+    needs: ci/test
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Build the application
+        run: npm run build
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3.0.1
+      - name: Upload build artifacts
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./build # CRA build output folder
 
-  # Deployment job
-  deploy:
+  # Job 5: Deploy to GitHub Pages
+  cd/deploy:
+    needs: ci/build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-22.04
-    needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4.0.5
+        uses: actions/deploy-pages@v4
