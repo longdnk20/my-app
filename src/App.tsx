@@ -10,7 +10,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <Counter />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          Edit <code>src/App.tsx</code> and save to reload are u ok ?
         </p>
         <span>
           <span>Learn </span>
@@ -20,7 +20,7 @@ function App() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            React
+            React this
           </a>
           <span>, </span>
           <a
@@ -29,7 +29,7 @@ function App() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Redux
+            Redux here
           </a>
           <span>, </span>
           <a
@@ -38,7 +38,7 @@ function App() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Redux Toolkit
+            Redux Toolkit only
           </a>
           ,<span> and </span>
           <a
@@ -47,7 +47,7 @@ function App() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            React Redux
+            React Redux for conquer the world
           </a>
         </span>
       </header>

@@ -36,3 +36,4 @@ jobs:
         npm run deploy -- -u "github-actions-bot <support+actions@github.com>"
       env:
         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+        GITHUB_REPOSITORY: longdnk20/my-app 
