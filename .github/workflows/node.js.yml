@@ -9,70 +9,56 @@ on:
 
   workflow_dispatch:
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Allow one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: true
 
 jobs:
-  # Job 1: Checkout code
-  ci_CHECKOUT:
+  # Build job
+  build:
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout code
+    
+      - name: CI/Checkout
         uses: actions/checkout@v4
 
-  # Job 2: Setup environment (Node.js)
-  ci_SETUP:
-    needs: ci_CHECKOUT
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Setup Pages
+      - name: CI/Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Set up Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
+      - name: CI/Set up Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-  # Job 3: Install dependencies and run tests
-  ci_TEST:
-    needs: ci_SETUP
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Install JavaScript dependencies
-        run: npm i -f
-        with:
-          path: ./
+      - name: CI/Install JavaScript dependencies
+        run: npm ci --only=production
 
-      - name: Test application
+      - name: Test Page
         run: npm run test
 
-  # Job 4: Build the site
-  ci_BUILD:
-    needs: ci_TEST
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Build the application
-        run: npm run build
+      - name: Build site
+        run: npm run build --if-present
 
-      - name: Upload build artifacts
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3.0.1
         with:
           path: ./build # CRA build output folder
 
-  # Job 5: Deploy to GitHub Pages
-  cd_DEPLOY:
-    needs: ci_BUILD
+  # Deployment job
+  deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-22.04
+    needs: build
     steps:
-      - name: Deploy to GitHub Pages
+      - name: CD/Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v4.0.5
