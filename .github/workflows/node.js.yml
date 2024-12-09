@@ -26,7 +26,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-  # Job 2: Setup environment
+  # Job 2: Setup environment (Node.js)
   ci_SETUP:
     needs: ci_CHECKOUT
     runs-on: ubuntu-22.04
@@ -38,7 +38,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-        working-directory: ./ # Đảm bảo chạy trong thư mục root của dự án
 
   # Job 3: Install dependencies and run tests
   ci_TEST:
@@ -46,12 +45,12 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Install JavaScript dependencies
-        run: npm install
-        working-directory: ./ # Đảm bảo chạy trong thư mục chứa package.json
+        run: npm i -f
+        with:
+          path: ./
 
       - name: Test application
         run: npm run test
-        working-directory: ./ # Đảm bảo chạy trong thư mục chứa package.json
 
   # Job 4: Build the site
   ci_BUILD:
@@ -60,12 +59,11 @@ jobs:
     steps:
       - name: Build the application
         run: npm run build
-        working-directory: ./ # Đảm bảo chạy trong thư mục chứa package.json
 
       - name: Upload build artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./build
+          path: ./build # CRA build output folder
 
   # Job 5: Deploy to GitHub Pages
   cd_DEPLOY:
