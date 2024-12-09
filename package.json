@@ -22,7 +22,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "echo 'Done the test bitch no problem !!! && exit 0",
+    "test": "echo 'Done the test bitch no problem' !!! && exit 0",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
